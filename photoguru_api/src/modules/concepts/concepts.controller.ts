@@ -1,0 +1,111 @@
+import {
+  Controller,
+  Get,
+  Query,
+  UseGuards,
+  Req,
+  Param,
+  ParseIntPipe,
+  Post,
+  Body,
+} from '@nestjs/common';
+import { ConceptsService } from './concepts.service';
+import { GetRecommendationsDto } from './dto/get-recommendations.dto';
+import { AtGuard } from '../auth/guards/at.guard';
+import { Request } from 'express';
+import { JwtPayload } from '../auth/interfaces/jwt-payload.interface';
+import { GetConceptsDto } from './dto/get-concepts.dto';
+import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
+import { GetRelatedConceptsDto } from './dto/get-related-concepts.dto';
+import { CreateConceptDto } from './dto/create-concept.dto';
+import { GetPhotographerConceptsDto } from './dto/get-photographer-concepts.dto';
+
+interface RequestWithUser extends Request {
+  user: JwtPayload;
+}
+
+@ApiTags('Concepts')
+@ApiBearerAuth('access-token')
+@Controller('concepts')
+export class ConceptsController {
+  constructor(private readonly conceptsService: ConceptsService) {}
+
+  @UseGuards(AtGuard)
+  @Get('categories')
+  @ApiOperation({ summary: 'Get all categories for dropdown' })
+  async getCategories() {
+    return this.conceptsService.getCategories();
+  }
+
+  @UseGuards(AtGuard)
+  @Get()
+  @ApiOperation({
+    summary: 'Search concepts by keyword and filter by location',
+  })
+  async findAll(@Req() req: RequestWithUser, @Query() query: GetConceptsDto) {
+    return this.conceptsService.findAll(req.user.sub, query);
+  }
+
+  @UseGuards(AtGuard)
+  @Get('recommended')
+  @ApiOperation({
+    summary:
+      'Get personalized concept recommendations for the authenticated user',
+  })
+  async getRecommended(
+    @Req() req: RequestWithUser,
+    @Query() query: GetRecommendationsDto,
+  ) {
+    return this.conceptsService.getRecommended(req.user.sub, query);
+  }
+
+  @UseGuards(AtGuard)
+  @Get(':id')
+  @ApiOperation({ summary: 'Get detailed information of a concept' })
+  async findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.conceptsService.findOne(id);
+  }
+
+  @UseGuards(AtGuard)
+  @Get(':id/related')
+  @ApiOperation({ summary: 'Get paginated related concepts by location' })
+  async findRelated(
+    @Param('id', ParseIntPipe) id: number,
+    @Query() query: GetRelatedConceptsDto,
+  ) {
+    return this.conceptsService.findRelated(id, query);
+  }
+  @UseGuards(AtGuard)
+  @Get(':id/chat-card')
+  @ApiOperation({ summary: 'Get minimal concept info for Firebase Chat Card' })
+  async getChatCard(@Param('id', ParseIntPipe) id: number) {
+    return this.conceptsService.getConceptChatCard(id);
+  }
+
+  @UseGuards(AtGuard)
+  @Get(':id/packages')
+  @ApiOperation({ summary: 'Get all packages for a concept (Booking Flow)' })
+  async getPackages(@Param('id', ParseIntPipe) id: number) {
+    return this.conceptsService.getConceptPackages(id);
+  }
+
+  @UseGuards(AtGuard)
+  @Post()
+  @ApiOperation({ summary: 'Create a new concept' })
+  async createConcept(
+    @Req() req: RequestWithUser,
+    @Body() dto: CreateConceptDto,
+  ) {
+    return this.conceptsService.createConcept(req.user.sub, dto);
+  }
+
+  @UseGuards(AtGuard)
+  @Get('photographer/me')
+  @ApiOperation({ summary: 'Get photographer concepts list with pagination' })
+  async getMyConcepts(
+    @Req() req: RequestWithUser,
+    @Query() query: GetPhotographerConceptsDto,
+  ) {
+    return this.conceptsService.getPhotographerConcepts(req.user.sub, query);
+  }
+}

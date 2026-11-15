@@ -1,0 +1,74 @@
+export const MESSAGES = {
+  AUTH: {
+    REGISTER_SUCCESS: 'Registration successful',
+    LOGIN_SUCCESS: 'Login successful',
+    LOGOUT_SUCCESS: 'Logged out successfully',
+    REFRESH_SUCCESS: 'Tokens refreshed successfully',
+    EMAIL_EXISTS: 'Email is already registered',
+    INVALID_CREDENTIALS: 'Invalid email or password',
+    ACCESS_DENIED: 'Access Denied',
+    TOKEN_MALFORMED: 'Refresh token malformed',
+  },
+  USER: {
+    NOT_FOUND: 'User not found',
+    UPDATE_SUCCESS: 'Profile updated successfully',
+    FETCH_PROFILE_SUCCESS: 'User profile fetched successfully',
+  },
+  CONCEPT: {
+    FETCH_RECOMMENDED_SUCCESS: 'Recommended concepts fetched successfully',
+    FETCH_SUCCESS: 'Concepts fetched successfully',
+    NOT_FOUND: 'Concept not found',
+    INVALID_PAGINATION_CURSOR: 'Invalid pagination cursor',
+    PACKAGE_NOT_FOUND: 'Package not found in this concept',
+    FAILED_TO_SEND_EMAIL_TO_PHOTOGRAPHER:
+      'Failed to send email to photographer',
+    CREATED: 'Concept created successfully',
+    CATEGORY: 'Categories fetched successfully',
+  },
+  DASHBOARD: {
+    FETCH_SUCCESS: 'Dashboard data fetched successfully',
+    ACCESS_DENIED: 'Only photographers can access this dashboard',
+  },
+  SCHEDULE: {
+    FETCH_SUCCESS: 'Photographer schedules fetched successfully',
+    UNAVAILABLE: 'This schedule slot is no longer available',
+  },
+  BOOKING: {
+    CREATED: 'Booking request sent successfully',
+    RESPONDED: 'Booking responded successfully',
+    COMPLETED: 'Booking marked as completed',
+    NOT_FOUND: 'Booking not found',
+    UNAUTHORIZED: 'You are not authorized to perform this action',
+    FETCH_SCHEDULES_SUCCESS: 'Photographer schedules fetched successfully',
+    PACKAGES_FETCHED: 'Packages fetched successfully',
+    ONLY_CONFIRMED_BOOKINGS_CAN_BE_COMPLETED:
+      'Only confirmed bookings can be completed',
+    FAILED_TO_SEND_EMAIL_TO_CUSTOMER: 'Failed to send email to customer',
+    NO_AVAILABLE_SCHEDULE_SLOT: 'No available schedule slot for this time',
+    ONLY_PENDING_BOOKINGS_CAN_BE_RESPONDED:
+      'Only pending bookings can be responded to',
+  },
+  PHOTOGRAPHER: {
+    NOT_FOUND: 'Photographer not found',
+    AVAILABLE_SLOTS_FETCHED: 'Available slots fetched successfully',
+  },
+  CHAT: {
+    ROOM_CREATED: 'Chat room created successfully',
+    ROOM_FETCHED: 'Chat room fetched successfully',
+    ROOMS_FETCHED: 'Chat rooms fetched successfully',
+    ROOM_NOT_FOUND: 'Chat room not found',
+    PHOTOGRAPHER_NOT_FOUND: 'Photographer not found',
+    CONCEPT_NOT_FOUND: 'Concept not found or not belong to photographer',
+    ONLY_CUSTOMER_CAN_CREATE: 'Only customers can create chat rooms',
+    ACCESS_DENIED: 'You do not have access to this chat room',
+    FIRESTORE_CREATE_FAILED: 'Failed to create Firestore document',
+    FIRESTORE_CREATE_SUCCESS: 'Created Firestore document for chat room {id}',
+    CONCEPT_NOT_FOUND_FOR_CHAT_ROOM: 'Concept not found for this chat room',
+  },
+  AI_GUIDE: {
+    ANALYZE_SUCCESS: 'Image analyzed successfully',
+    EDIT_SUCCESS: 'Image edited successfully',
+    ANALYZE_FAILED: 'Unable to analyze image. Please try again later.',
+    EDIT_FAILED: 'Could not edit image. Please try again.',
+  },
+} as const;
